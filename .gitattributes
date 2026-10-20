@@ -1,0 +1,3 @@
+* text=auto eol=lf
+# Evidence snapshots are hashed (sha256 manifest): store and check out byte-for-byte
+data/gcs/** -text
