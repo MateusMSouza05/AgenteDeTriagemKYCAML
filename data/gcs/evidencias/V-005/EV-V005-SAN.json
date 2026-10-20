@@ -1,0 +1,19 @@
+{
+  "evidencia_id": "EV-V005-SAN",
+  "caso_id": "V-005",
+  "tipo_fonte": "SANCOES",
+  "fonte": "Lista de Sanções Sintética (mock)",
+  "identificador_consultado": "ID-SINTETICO-0005",
+  "url": "https://mock.vertice.example/sancoes?id=ID-SINTETICO-0005",
+  "consultado_em": "2026-06-06T13:00:00Z",
+  "status_consulta": "CONCLUIDA",
+  "trecho": "Nome coincide com entidade em lista de sanções sintética; identificador divergente (ID-SINTETICO-9999).",
+  "correspondencias": [
+    {
+      "nome": "Épsilon Alimentos Sintética Ltda",
+      "identificador": "ID-SINTETICO-9999",
+      "lista": "Sanções Sintéticas Internacionais"
+    }
+  ],
+  "aviso": "Snapshot inteiramente sintético para processo seletivo."
+}

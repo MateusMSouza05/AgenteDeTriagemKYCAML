@@ -1,0 +1,5 @@
+node_modules/
+.env
+*.key.json
+# Challenge statement from the recruiter: keep it out of the repository
+*.pdf

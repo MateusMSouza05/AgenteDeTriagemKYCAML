@@ -1,0 +1,19 @@
+{
+  "evidencia_id": "EV-V003-SAN",
+  "caso_id": "V-003",
+  "tipo_fonte": "SANCOES",
+  "fonte": "Lista de Sanções Sintética (mock)",
+  "identificador_consultado": "ID-SINTETICO-0003",
+  "url": "https://mock.vertice.example/sancoes?id=ID-SINTETICO-0003",
+  "consultado_em": "2026-06-04T13:00:00Z",
+  "status_consulta": "CONCLUIDA",
+  "trecho": "Correspondência confirmada por identificador ID-SINTETICO-0003 em lista de sanções sintética.",
+  "correspondencias": [
+    {
+      "nome": "Gama Logística Sintética Ltda",
+      "identificador": "ID-SINTETICO-0003",
+      "lista": "Sanções Sintéticas Internacionais"
+    }
+  ],
+  "aviso": "Snapshot inteiramente sintético para processo seletivo."
+}

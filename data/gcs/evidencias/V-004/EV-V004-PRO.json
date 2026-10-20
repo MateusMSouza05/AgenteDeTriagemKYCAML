@@ -1,0 +1,13 @@
+{
+  "evidencia_id": "EV-V004-PRO",
+  "caso_id": "V-004",
+  "tipo_fonte": "PROCESSOS",
+  "fonte": "Tribunais Sintéticos (mock)",
+  "identificador_consultado": "ID-SINTETICO-0004",
+  "url": "https://mock.vertice.example/processos?id=ID-SINTETICO-0004",
+  "consultado_em": "2026-06-05T13:20:00Z",
+  "status_consulta": "CONCLUIDA",
+  "trecho": "Nenhuma correspondência confirmada no snapshot sintético.",
+  "correspondencias": [],
+  "aviso": "Snapshot inteiramente sintético para processo seletivo."
+}

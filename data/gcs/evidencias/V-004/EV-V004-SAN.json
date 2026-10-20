@@ -1,0 +1,13 @@
+{
+  "evidencia_id": "EV-V004-SAN",
+  "caso_id": "V-004",
+  "tipo_fonte": "SANCOES",
+  "fonte": "Lista de Sanções Sintética (mock)",
+  "identificador_consultado": "ID-SINTETICO-0004",
+  "url": "https://mock.vertice.example/sancoes?id=ID-SINTETICO-0004",
+  "consultado_em": "2026-06-05T13:00:00Z",
+  "status_consulta": "INDISPONIVEL",
+  "trecho": "Fonte de sanções retornou indisponibilidade (timeout) no momento da consulta.",
+  "correspondencias": [],
+  "aviso": "Snapshot inteiramente sintético para processo seletivo."
+}

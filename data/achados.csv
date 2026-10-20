@@ -1,0 +1,32 @@
+caso_id,achado_id,tipo_fonte,status_consulta,nivel_achado,consultado_em,trecho,evidencia_id,gcs_uri
+V-001,A-SAN,SANCOES,CONCLUIDA,SEM_ACHADO,2026-06-02T13:00:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V001-SAN,gs://vertice-kyc-demo/evidencias/V-001/EV-V001-SAN.json
+V-001,A-PEP,PEP,CONCLUIDA,SEM_ACHADO,2026-06-02T13:10:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V001-PEP,gs://vertice-kyc-demo/evidencias/V-001/EV-V001-PEP.json
+V-001,A-PRO,PROCESSOS,CONCLUIDA,SEM_ACHADO,2026-06-02T13:20:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V001-PRO,gs://vertice-kyc-demo/evidencias/V-001/EV-V001-PRO.json
+V-001,A-MID,MIDIA,CONCLUIDA,SEM_ACHADO,2026-06-02T13:30:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V001-MID,gs://vertice-kyc-demo/evidencias/V-001/EV-V001-MID.json
+V-002,A-SAN,SANCOES,CONCLUIDA,SEM_ACHADO,2026-06-03T13:00:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V002-SAN,gs://vertice-kyc-demo/evidencias/V-002/EV-V002-SAN.json
+V-002,A-PEP,PEP,CONCLUIDA,SEM_ACHADO,2026-06-03T13:10:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V002-PEP,gs://vertice-kyc-demo/evidencias/V-002/EV-V002-PEP.json
+V-002,A-PRO,PROCESSOS,CONCLUIDA,SEM_ACHADO,2026-06-03T13:20:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V002-PRO,gs://vertice-kyc-demo/evidencias/V-002/EV-V002-PRO.json
+V-002,A-MID,MIDIA,CONCLUIDA,SEM_ACHADO,2026-06-03T13:30:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V002-MID,gs://vertice-kyc-demo/evidencias/V-002/EV-V002-MID.json
+V-003,A-SAN,SANCOES,CONCLUIDA,ALTO,2026-06-04T13:00:00Z,Correspondência confirmada por identificador ID-SINTETICO-0003 em lista de sanções sintética.,EV-V003-SAN,gs://vertice-kyc-demo/evidencias/V-003/EV-V003-SAN.json
+V-003,A-PEP,PEP,CONCLUIDA,SEM_ACHADO,2026-06-04T13:10:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V003-PEP,gs://vertice-kyc-demo/evidencias/V-003/EV-V003-PEP.json
+V-003,A-PRO,PROCESSOS,CONCLUIDA,SEM_ACHADO,2026-06-04T13:20:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V003-PRO,gs://vertice-kyc-demo/evidencias/V-003/EV-V003-PRO.json
+V-003,A-MID,MIDIA,CONCLUIDA,SEM_ACHADO,2026-06-04T13:30:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V003-MID,gs://vertice-kyc-demo/evidencias/V-003/EV-V003-MID.json
+V-004,A-SAN,SANCOES,INDISPONIVEL,,2026-06-05T13:00:00Z,Fonte de sanções retornou indisponibilidade (timeout) no momento da consulta.,EV-V004-SAN,gs://vertice-kyc-demo/evidencias/V-004/EV-V004-SAN.json
+V-004,A-PEP,PEP,CONCLUIDA,SEM_ACHADO,2026-06-05T13:10:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V004-PEP,gs://vertice-kyc-demo/evidencias/V-004/EV-V004-PEP.json
+V-004,A-PRO,PROCESSOS,CONCLUIDA,SEM_ACHADO,2026-06-05T13:20:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V004-PRO,gs://vertice-kyc-demo/evidencias/V-004/EV-V004-PRO.json
+V-004,A-MID,MIDIA,CONCLUIDA,SEM_ACHADO,2026-06-05T13:30:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V004-MID,gs://vertice-kyc-demo/evidencias/V-004/EV-V004-MID.json
+V-005,A-SAN,SANCOES,CONCLUIDA,ALTO,2026-06-06T13:00:00Z,Nome coincide com entidade em lista de sanções sintética; identificador divergente (ID-SINTETICO-9999).,EV-V005-SAN,gs://vertice-kyc-demo/evidencias/V-005/EV-V005-SAN.json
+V-005,A-PEP,PEP,CONCLUIDA,SEM_ACHADO,2026-06-06T13:10:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V005-PEP,gs://vertice-kyc-demo/evidencias/V-005/EV-V005-PEP.json
+V-005,A-PRO,PROCESSOS,CONCLUIDA,SEM_ACHADO,2026-06-06T13:20:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V005-PRO,gs://vertice-kyc-demo/evidencias/V-005/EV-V005-PRO.json
+V-005,A-MID,MIDIA,CONCLUIDA,SEM_ACHADO,2026-06-06T13:30:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V005-MID,gs://vertice-kyc-demo/evidencias/V-005/EV-V005-MID.json
+V-006,A-SAN,SANCOES,CONCLUIDA,SEM_ACHADO,2026-06-07T13:00:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V006-SAN,gs://vertice-kyc-demo/evidencias/V-006/EV-V006-SAN.json
+V-006,A-PEP,PEP,CONCLUIDA,SEM_ACHADO,2026-06-07T13:10:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V006-PEP,gs://vertice-kyc-demo/evidencias/V-006/EV-V006-PEP.json
+V-006,A-PRO,PROCESSOS,CONCLUIDA,SEM_ACHADO,2026-06-07T13:20:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V006-PRO,gs://vertice-kyc-demo/evidencias/V-006/EV-V006-PRO.json
+V-006,A-MID,MIDIA,CONCLUIDA,SEM_ACHADO,2026-06-07T13:30:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V006-MID,gs://vertice-kyc-demo/evidencias/V-006/EV-V006-MID.json
+V-007,A-SAN,SANCOES,CONCLUIDA,SEM_ACHADO,2026-06-08T13:00:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V007-SAN,gs://vertice-kyc-demo/evidencias/V-007/EV-V007-SAN.json
+V-007,A-PRO,PROCESSOS,CONCLUIDA,SEM_ACHADO,2026-06-08T13:20:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V007-PRO,gs://vertice-kyc-demo/evidencias/V-007/EV-V007-PRO.json
+V-007,A-MID,MIDIA,CONCLUIDA,SEM_ACHADO,2026-06-08T13:30:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V007-MID,gs://vertice-kyc-demo/evidencias/V-007/EV-V007-MID.json
+V-008,A-SAN,SANCOES,CONCLUIDA,SEM_ACHADO,2026-06-09T13:00:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V008-SAN,gs://vertice-kyc-demo/evidencias/V-008/EV-V008-SAN.json
+V-008,A-PEP,PEP,CONCLUIDA,SEM_ACHADO,2026-06-09T13:10:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V008-PEP,gs://vertice-kyc-demo/evidencias/V-008/EV-V008-PEP.json
+V-008,A-PRO,PROCESSOS,CONCLUIDA,SEM_ACHADO,2026-06-09T13:20:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V008-PRO,gs://vertice-kyc-demo/evidencias/V-008/EV-V008-PRO.json
+V-008,A-MID,MIDIA,CONCLUIDA,SEM_ACHADO,2026-06-09T13:30:00Z,Nenhuma correspondência confirmada no snapshot sintético.,EV-V008-MID,gs://vertice-kyc-demo/evidencias/V-008/EV-V008-MID.json

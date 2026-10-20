@@ -1,0 +1,13 @@
+{
+  "evidencia_id": "EV-V007-MID",
+  "caso_id": "V-007",
+  "tipo_fonte": "MIDIA",
+  "fonte": "Clipping de Mídia Sintético (mock)",
+  "identificador_consultado": "ID-SINTETICO-0007",
+  "url": "https://mock.vertice.example/midia?id=ID-SINTETICO-0007",
+  "consultado_em": "2026-06-08T13:30:00Z",
+  "status_consulta": "CONCLUIDA",
+  "trecho": "Nenhuma correspondência confirmada no snapshot sintético.",
+  "correspondencias": [],
+  "aviso": "Snapshot inteiramente sintético para processo seletivo."
+}

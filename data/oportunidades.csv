@@ -1,0 +1,9 @@
+caso_id,cnpj,razao_social,setor,situacao,beneficiario_final_identificado,servicos,linha_de_servico,valor_estimado,gerente,socio
+V-001,ID-SINTETICO-0001,Alfa Engenharia Sintética Ltda,Construção civil,ATIVA,true,Auditoria das demonstrações financeiras,Auditoria,420000,gerente.1@vertice.example,socio.2@vertice.example
+V-002,ID-SINTETICO-0002,Beta Criptoativos Sintética S.A.,Criptoativos,ATIVA,true,Revisão de controles internos,Consultoria,310000,gerente.2@vertice.example,socio.3@vertice.example
+V-003,ID-SINTETICO-0003,Gama Logística Sintética Ltda,Logística,ATIVA,true,Auditoria das demonstrações financeiras,Auditoria,550000,gerente.3@vertice.example,socio.1@vertice.example
+V-004,ID-SINTETICO-0004,Delta Varejo Sintético Ltda,Varejo,ATIVA,true,Due diligence contábil,Consultoria,280000,gerente.4@vertice.example,socio.2@vertice.example
+V-005,ID-SINTETICO-0005,Épsilon Alimentos Sintética Ltda,Alimentos,ATIVA,true,Auditoria das demonstrações financeiras,Auditoria,390000,gerente.5@vertice.example,socio.3@vertice.example
+V-006,ID-SINTETICO-0006,Zeta Serviços Sintéticos Ltda,Serviços,ATIVA,true,Revisão tributária,Consultoria,260000,gerente.6@vertice.example,socio.1@vertice.example
+V-007,ID-SINTETICO-0007,Eta Tecnologia Sintética Ltda,Tecnologia,ATIVA,true,Auditoria das demonstrações financeiras,Auditoria,470000,gerente.7@vertice.example,socio.2@vertice.example
+V-008,ID-SINTETICO-0008,Teta Energia Sintética S.A.,Energia,ATIVA,true,Auditoria das demonstrações financeiras,Auditoria,610000,gerente.8@vertice.example,socio.3@vertice.example

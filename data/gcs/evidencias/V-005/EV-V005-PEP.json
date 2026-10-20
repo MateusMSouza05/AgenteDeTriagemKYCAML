@@ -1,0 +1,13 @@
+{
+  "evidencia_id": "EV-V005-PEP",
+  "caso_id": "V-005",
+  "tipo_fonte": "PEP",
+  "fonte": "Cadastro PEP Sintético (mock)",
+  "identificador_consultado": "ID-SINTETICO-0005",
+  "url": "https://mock.vertice.example/pep?id=ID-SINTETICO-0005",
+  "consultado_em": "2026-06-06T13:10:00Z",
+  "status_consulta": "CONCLUIDA",
+  "trecho": "Nenhuma correspondência confirmada no snapshot sintético.",
+  "correspondencias": [],
+  "aviso": "Snapshot inteiramente sintético para processo seletivo."
+}
