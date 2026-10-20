@@ -1,0 +1,26 @@
+{
+  "name": "agente-triagem-kyc-aml",
+  "version": "0.1.0",
+  "private": true,
+  "description": "KYC/AML triage agent with deterministic rules, BigQuery and GCS evidence (synthetic data, hiring challenge).",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "tsc && node --test tests/",
+    "triar": "node src/triar.ts"
+  },
+  "dependencies": {
+    "@google-cloud/bigquery": "^9.4.0",
+    "@google-cloud/storage": "^7.22.0",
+    "@google/adk": "^2.3.0",
+    "csv-parse": "^7.0.3",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@google/adk-devtools": "^2.3.0",
+    "@types/node": "^24.19.2",
+    "typescript": "^7.0.2"
+  }
+}
