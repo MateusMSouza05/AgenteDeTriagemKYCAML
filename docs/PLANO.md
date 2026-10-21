@@ -371,3 +371,26 @@ Passos que eu faço em seguida:
 
 - Ativar as APIs (`bigquery`, `storage`, `aiplatform`, `iamcredentials`) e escrever o `infra/setup.sh`.
 - Criar `package.json`/`tsconfig.json`, portar o gerador e escrever `tipos.ts`, `regras.ts`, `evidencias.ts`, `dados.ts` (modo local) e os testes. Isso não depende do GCP e pode começar já.
+
+---
+
+## 17. Mudanças durante a execução (20/10 e 21/10)
+
+Registro do que mudou em relação ao plano acima, e por quê.
+
+| Mudança | Motivo |
+|---|---|
+| Dataset de dados se chama `vertice_demo` (não `vertice_dados`) | mesmo nome do SQL inicial do PDF; o avaliador reconhece |
+| Manifesto sem `generation` | o sha256 já detecta alteração; o versionamento guarda o histórico |
+| Manifesto chega pela própria `fn_caso` | o agente não precisa (nem pode) ler a tabela `evidencias` |
+| Códigos novos: `EVIDENCIA_NAO_REGISTRADA`, `EVIDENCIA_DIVERGENTE`, `NIVEL_INVALIDO` | cada código com um único significado |
+| `bloqueia_inicio` vale para ALTO **e** PENDENTE | caso sem parecer concluído não deveria começar |
+| `..` recusado no `gcs_uri` | impedia escapar da pasta do caso no espelho local |
+| `.gitattributes` com `data/gcs/** -text` | o Git no Windows alteraria os bytes e o sha256 das evidências |
+| `setup.sh` recria as tabelas de entrada em vez de `bq load --replace` | o `--replace` apagava PK/FK sem avisar |
+| `setup.sh` remove e concede de novo a autorização da `fn_caso` | `CREATE OR REPLACE` invalida a autorização |
+| Configuração `vertice` no gcloud | o projeto padrão da máquina era outro (`dev-gentrack-0001`) |
+| Modelo `gemini-2.5-flash` | `gemini-3-flash` disponível só em preview no projeto |
+| Achados ordenados por `tipo_fonte, achado_id` nos dois modos | o BigQuery devolve linhas em ordem arbitrária; a saída precisa ser reproduzível |
+| SEC mock removido | decisão: fora do escopo; descrito no README como evolução |
+| `triarCaso`/`emitirParecer` ficaram em `triar.ts` | sem arquivo extra; o agente e a linha de comando usam a mesma função |

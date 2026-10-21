@@ -100,11 +100,5 @@ writeFileSync(join(ROOT, 'achados.csv'), csv([
   ...achados,
 ]));
 writeFileSync(join(ROOT, 'evidencias.csv'), csv([['evidencia_id', 'caso_id', 'gcs_uri', 'sha256'], ...manifesto]));
-writeFileSync(join(ROOT, 'sec_mock.json'), JSON.stringify(oportunidades.map(([caso, , , , , , linha]) => ({
-  caso_id: caso,
-  linha_de_servico: linha,
-  permitido: true,
-  motivo: 'Sem relação de auditoria vigente que impeça o serviço (mock).',
-})), null, 2) + '\n');
 
 console.log(`${oportunidades.length} oportunidades, ${achados.length} achados, ${manifesto.length} evidências`);
