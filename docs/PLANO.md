@@ -348,7 +348,7 @@ SEC e Salesforce reais, coleta automática de fontes, Comitê integrado, busines
 
 ## 15. Uso de IA (declarar na entrega)
 
-Claude (Anthropic) como assistente de análise, código e documentação; Gemini (Vertex AI) como LLM do agente; bibliotecas listadas em `package.json`.
+Gemini (Vertex AI) como LLM do agente; bibliotecas listadas em `package.json`.
 
 ---
 

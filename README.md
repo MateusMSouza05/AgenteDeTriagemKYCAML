@@ -190,7 +190,6 @@ Ou só os recursos: `bq rm -r -f seu-projeto:vertice_demo`, `bq rm -r -f seu-pro
 
 ## Uso de IA, bibliotecas e serviços
 
-- **Claude (Anthropic)**, via Claude Code: apoio na análise do desafio, no desenho, no código, nos testes e na documentação. Todo o conteúdo foi revisado e as decisões foram tomadas pelo autor.
 - **Gemini 2.5 Flash (Vertex AI):** modelo do agente.
 - **Bibliotecas:** `@google/adk`, `@google/adk-devtools`, `@google-cloud/bigquery`, `@google-cloud/storage`, `zod`, `csv-parse`, `typescript` (ver `package.json`).
 - **Serviços Google Cloud:** BigQuery, Cloud Storage, IAM, IAM Credentials, Vertex AI.
