@@ -60,6 +60,8 @@ pareceres/        pareceres preliminares gerados
 
 Requisito: **Node.js 24** (executa TypeScript direto, sem build).
 
+O `.npmrc` desativa scripts de instalação das dependências (`ignore-scripts=true`): o `better-sqlite3`, trazido pelo `@google/adk-devtools`, já vem com binários prontos, mas tenta compilar e falha em máquinas sem ferramentas de C++. De quebra, reduz risco de cadeia de suprimentos. `npm test` e `npm run` funcionam normalmente.
+
 ### A. Local, sem GCP (2 minutos)
 
 Usa o espelho em `data/` no lugar de BigQuery e GCS. Não precisa de conta nem gera custo.
