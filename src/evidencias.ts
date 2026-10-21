@@ -3,7 +3,8 @@
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { parse } from 'csv-parse/sync';
+import { Storage } from '@google-cloud/storage';
+import { modoLocal } from './dados.ts';
 import type { Achado, AchadoConferido, ProblemaEvidencia, Snapshot } from './tipos.ts';
 
 export const BUCKET = process.env.KYC_BUCKET ?? 'vertice-kyc-projeto-vertice-auditores';
@@ -49,29 +50,29 @@ export function conferirConteudo(
   return { problema: null, snapshot };
 }
 
-// --- local mode: data/gcs mirrors the bucket, data/evidencias.csv mirrors the manifest table ---
+// --- reading: GCS in the cloud, data/gcs as the local mirror ---
 
-async function lerLocal(gcsUri: string): Promise<Buffer | null> {
+let storage: Storage | undefined;
+
+/** Returns the object bytes, or null when it does not exist. Permission errors are not "missing": they stop the triage. */
+async function ler(gcsUri: string): Promise<Buffer | null> {
   const caminho = gcsUri.replace(/^gs:\/\/[^/]+\//, '');
   try {
-    return await readFile(join(DIR_DADOS, 'gcs', caminho));
+    if (modoLocal()) return await readFile(join(DIR_DADOS, 'gcs', caminho));
+    storage ??= new Storage({ projectId: process.env.GOOGLE_CLOUD_PROJECT });
+    const [conteudo] = await storage.bucket(BUCKET).file(caminho).download();
+    return conteudo;
   } catch (erro) {
-    if ((erro as NodeJS.ErrnoException).code === 'ENOENT') return null;
+    const e = erro as { code?: string | number };
+    if (e.code === 'ENOENT' || e.code === 404) return null;
     throw erro;
   }
 }
 
-async function manifestoLocal(casoId: string): Promise<Map<string, string>> {
-  const linhas: { caso_id: string; gcs_uri: string; sha256: string }[] =
-    parse(await readFile(join(DIR_DADOS, 'evidencias.csv')), { columns: true, skip_empty_lines: true });
-  return new Map(linhas.filter(l => l.caso_id === casoId).map(l => [l.gcs_uri, l.sha256]));
-}
-
-export async function conferirAchados(casoId: string, achados: Achado[]): Promise<AchadoConferido[]> {
-  const manifesto = await manifestoLocal(casoId);
+export async function conferirAchados(casoId: string, achados: Achado[], manifesto: Map<string, string>): Promise<AchadoConferido[]> {
   return Promise.all(achados.map(async achado => {
     // Read only after the prefix check: never fetch a URI outside this case.
-    const conteudo = dentroDoCaso(casoId, achado.gcs_uri) ? await lerLocal(achado.gcs_uri) : null;
+    const conteudo = dentroDoCaso(casoId, achado.gcs_uri) ? await ler(achado.gcs_uri) : null;
     return { ...achado, ...conferirConteudo(casoId, achado, conteudo, manifesto.get(achado.gcs_uri)) };
   }));
 }

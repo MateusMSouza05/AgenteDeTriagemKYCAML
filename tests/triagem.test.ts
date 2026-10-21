@@ -9,6 +9,7 @@ import { classificar } from '../src/regras.ts';
 import { triarCaso } from '../src/triar.ts';
 import type { AchadoConferido } from '../src/tipos.ts';
 
+process.env.KYC_LOCAL = '1'; // tests run offline against data/: no GCP, no cost
 const AGORA = new Date('2026-10-20T12:00:00Z');
 const codigos = (motivos: { codigo: string }[]) => motivos.map(m => m.codigo).sort();
 
@@ -53,8 +54,8 @@ describe('cenários do desafio', () => {
 
 describe('bordas', () => {
   const conferidos = async (caso: string) => {
-    const { oportunidade, achados } = await carregarCaso(caso);
-    return { oportunidade, achados: await conferirAchados(caso, achados) };
+    const { oportunidade, achados, manifesto } = await carregarCaso(caso);
+    return { oportunidade, achados: await conferirAchados(caso, achados, manifesto) };
   };
 
   it('sem achados (LEFT JOIN vazio) → PENDENTE, nunca LEVE', async () => {
@@ -65,27 +66,26 @@ describe('bordas', () => {
   });
 
   it('arquivo alterado após a carga → EVIDENCIA_ALTERADA → PENDENTE', async () => {
-    const { oportunidade, achados } = await carregarCaso('V-001');
+    const { oportunidade, achados, manifesto } = await carregarCaso('V-001');
     const san = achados.find(a => a.tipo_fonte === 'SANCOES')!;
     const original = await readFile('data/gcs/evidencias/V-001/EV-V001-SAN.json');
-    const manifesto = await readFile('data/evidencias.csv', 'utf8');
-    const sha = manifesto.split('\n').find(l => l.startsWith('EV-V001-SAN,'))!.split(',')[3];
+    const sha = manifesto.get(san.gcs_uri);
 
     assert.equal(conferirConteudo('V-001', san, original, sha).problema, null);
     const adulterado = Buffer.from(original.toString().replace('Nenhuma', 'Uma'));
     const check = conferirConteudo('V-001', san, adulterado, sha);
     assert.equal(check.problema, 'EVIDENCIA_ALTERADA');
 
-    const demais = (await conferirAchados('V-001', achados)).filter(a => a.tipo_fonte !== 'SANCOES');
+    const demais = (await conferirAchados('V-001', achados, manifesto)).filter(a => a.tipo_fonte !== 'SANCOES');
     const r = classificar(oportunidade, [...demais, { ...san, ...check }], AGORA);
     assert.equal(r.resultado, 'PENDENTE');
     assert.deepEqual(codigos(r.motivos), ['EVIDENCIA_ALTERADA']);
   });
 
   it('gcs_uri fora do prefixo do caso não é lido → EVIDENCIA_FORA_DO_CASO', async () => {
-    const { achados } = await carregarCaso('V-001');
+    const { achados, manifesto } = await carregarCaso('V-001');
     for (const uri of ['gs://vertice-kyc-projeto-vertice-auditores/evidencias/V-003/EV-V003-SAN.json', 'gs://vertice-kyc-projeto-vertice-auditores/evidencias/V-001/../V-003/EV-V003-SAN.json']) {
-      const [a] = await conferirAchados('V-001', [{ ...achados[0], gcs_uri: uri }]);
+      const [a] = await conferirAchados('V-001', [{ ...achados[0], gcs_uri: uri }], manifesto);
       assert.equal(a.problema, 'EVIDENCIA_FORA_DO_CASO');
     }
   });

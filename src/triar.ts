@@ -6,8 +6,8 @@ import { classificar } from './regras.ts';
 import type { ResultadoTriagem } from './tipos.ts';
 
 export async function triarCaso(casoId: string, agora = new Date()): Promise<ResultadoTriagem> {
-  const { oportunidade, achados } = await carregarCaso(casoId);
-  return classificar(oportunidade, await conferirAchados(casoId, achados), agora);
+  const { oportunidade, achados, manifesto } = await carregarCaso(casoId);
+  return classificar(oportunidade, await conferirAchados(casoId, achados, manifesto), agora);
 }
 
 if (import.meta.main) {

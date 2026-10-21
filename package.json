@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "tsc && node --test \"tests/**/*.test.ts\"",
-    "triar": "node src/triar.ts"
+    "triar": "node --env-file-if-exists=.env src/triar.ts"
   },
   "dependencies": {
     "@google-cloud/bigquery": "^9.4.0",
