@@ -9,7 +9,9 @@
   },
   "scripts": {
     "test": "tsc && node --test \"tests/**/*.test.ts\"",
-    "triar": "node --env-file-if-exists=.env src/triar.ts"
+    "triar": "node --env-file-if-exists=.env src/triar.ts",
+    "agente": "node --env-file-if-exists=.env node_modules/@google/adk-devtools/dist/esm/cli_entrypoint.js web src/agent.ts",
+    "agente:cli": "node --env-file-if-exists=.env node_modules/@google/adk-devtools/dist/esm/cli_entrypoint.js run src/agent.ts"
   },
   "dependencies": {
     "@google-cloud/bigquery": "^9.4.0",

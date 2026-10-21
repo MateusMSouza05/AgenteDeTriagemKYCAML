@@ -48,10 +48,10 @@ export async function carregarCaso(casoId: string): Promise<Caso> {
 // --- BigQuery ---
 
 let cliente: BigQuery | undefined;
+export const bigquery = () => (cliente ??= new BigQuery({ projectId: process.env.GOOGLE_CLOUD_PROJECT }));
 
 async function carregarBigQuery(casoId: string): Promise<Caso> {
-  cliente ??= new BigQuery({ projectId: process.env.GOOGLE_CLOUD_PROJECT });
-  const [linhas] = await cliente.query({
+  const [linhas] = await bigquery().query({
     query: `SELECT * FROM \`${process.env.GOOGLE_CLOUD_PROJECT}.vertice_api.fn_caso\`(@caso_id)`,
     params: { caso_id: casoId },
     location: process.env.KYC_BQ_LOCATION ?? 'southamerica-east1',

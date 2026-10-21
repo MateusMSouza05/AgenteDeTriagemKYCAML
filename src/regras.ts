@@ -5,7 +5,7 @@ import type { AchadoConferido, Motivo, Oportunidade, ProblemaEvidencia, Resultad
 
 export const REGRAS_VERSAO = '2026-10-20.1';
 const SETORES_SENSIVEIS = ['apostas', 'criptoativos', 'metais preciosos', 'comércio exterior'];
-const VALIDADE_MESES = 12;
+export const VALIDADE_MESES = 12;
 
 const DESCRICAO_EVIDENCIA: Record<ProblemaEvidencia, string> = {
   EVIDENCIA_FORA_DO_CASO: 'gcs_uri fora do prefixo de evidências deste caso; objeto não foi lido.',
