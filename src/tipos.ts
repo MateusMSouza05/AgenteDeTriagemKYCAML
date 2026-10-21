@@ -1,12 +1,12 @@
-// Contract shared by data loading, evidence checks, rules and the agent.
-// Closed sets are string unions (Node type stripping does not support enums).
+// Contrato compartilhado por carga de dados, conferência de evidências, regras e agente.
+// Conjuntos fechados são unions de string (o type stripping do Node não aceita enum).
 
 export type TipoFonte = 'SANCOES' | 'PEP' | 'PROCESSOS' | 'MIDIA';
 export const FONTES_OBRIGATORIAS: readonly TipoFonte[] = ['SANCOES', 'PEP', 'PROCESSOS', 'MIDIA'];
 
 export type Resultado = 'LEVE' | 'MODERADO' | 'ALTO' | 'PENDENTE';
 
-/** Row of BigQuery `oportunidades` (or data/oportunidades.csv). */
+/** Linha de `oportunidades` no BigQuery (ou data/oportunidades.csv). */
 export interface Oportunidade {
   caso_id: string;
   cnpj: string;
@@ -21,7 +21,7 @@ export interface Oportunidade {
   socio: string;
 }
 
-/** Row of BigQuery `achados`. Values stay `string` because they come from outside: rules treat unknown values as non-conclusive. */
+/** Linha de `achados` no BigQuery. Os valores ficam `string` porque vêm de fora: as regras tratam valor desconhecido como não conclusivo. */
 export interface Achado {
   caso_id: string;
   achado_id: string;
@@ -34,7 +34,7 @@ export interface Achado {
   gcs_uri: string;
 }
 
-/** JSON evidence snapshot stored in GCS at `gcs_uri`. */
+/** Snapshot JSON de evidência guardado no GCS em `gcs_uri`. */
 export interface Snapshot {
   evidencia_id: string;
   caso_id: string;
@@ -57,20 +57,20 @@ export type ProblemaEvidencia =
   | 'EVIDENCIA_DIVERGENTE'
   | 'EVIDENCIA_INCOMPLETA';
 
-/** Finding after its evidence was checked. `problema === null` means the evidence is valid. */
+/** Achado depois da conferência da evidência. `problema === null` significa evidência válida. */
 export interface AchadoConferido extends Achado {
   problema: ProblemaEvidencia | null;
   snapshot: Snapshot | null;
 }
 
 export type CodigoMotivo =
-  // facts that set the level
+  // fatos que definem o nível
   | 'SANCAO_CONFIRMADA'
   | 'ACHADO_ALTO_CONFIRMADO'
   | 'BENEFICIARIO_NAO_IDENTIFICADO'
   | 'ACHADO_MODERADO_CONFIRMADO'
   | 'SETOR_SENSIVEL'
-  // pending items / exceptions that block LEVE
+  // pendências / exceções que impedem LEVE
   | 'FONTE_AUSENTE'
   | 'FONTE_INDISPONIVEL'
   | 'CONSULTA_VENCIDA'
@@ -82,7 +82,7 @@ export type CodigoMotivo =
 export interface Motivo {
   codigo: CodigoMotivo;
   descricao: string;
-  /** Where the fact comes from: evidence id, or the `oportunidades` record for registry facts. */
+  /** De onde vem o fato: id da evidência, ou o registro de `oportunidades` para fatos cadastrais. */
   evidencia_id?: string;
   gcs_uri?: string;
 }
@@ -103,10 +103,10 @@ export interface ResultadoTriagem {
   caso_id: string;
   razao_social: string;
   resultado: Resultado;
-  /** When PENDENTE but a MODERADO fact is already confirmed: the case cannot end below this level. */
+  /** Quando PENDENTE mas já há fato MODERADO confirmado: o caso não pode terminar abaixo deste nível. */
   nivel_minimo: 'MODERADO' | null;
   encaminhamento: string;
-  /** Work cannot start until a human decision is recorded. */
+  /** O trabalho não pode começar até haver decisão humana registrada. */
   bloqueia_inicio: boolean;
   motivos: Motivo[];
   evidencias: EvidenciaCitada[];

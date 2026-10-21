@@ -1,6 +1,6 @@
-// Generates the synthetic data package under data/. Run from the repo root:
+// Gera o pacote de dados sintéticos em data/. Rode a partir da raiz do repositório:
 //   node scripts/gerar-dados.ts
-// Every identifier is synthetic (ID-SINTETICO-*); nothing here refers to real companies.
+// Todo identificador é sintético (ID-SINTETICO-*); nada aqui se refere a empresas reais.
 import { createHash } from 'node:crypto';
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -29,16 +29,16 @@ const oportunidades: [string, string, string, string, boolean, string, string, n
 ];
 
 const SEM = 'Nenhuma correspondência confirmada no snapshot sintético.';
-// Per-case overrides: [status, nivel, identifier matches cnpj?, trecho].
-// The match flag only shapes the snapshot; achados.csv keeps the original 9-column contract.
+// Exceções por caso: [status, nivel, identificador bate com o cnpj?, trecho].
+// A marcação só molda o snapshot; achados.csv mantém o contrato original de 9 colunas.
 const especiais: Record<string, [string, string | null, boolean | null, string]> = {
   'V-003/SAN': ['CONCLUIDA', 'ALTO', true, 'Correspondência confirmada por identificador ID-SINTETICO-0003 em lista de sanções sintética.'],
   'V-004/SAN': ['INDISPONIVEL', null, null, 'Fonte de sanções retornou indisponibilidade (timeout) no momento da consulta.'],
   'V-005/SAN': ['CONCLUIDA', 'ALTO', false, 'Nome coincide com entidade em lista de sanções sintética; identificador divergente (ID-SINTETICO-9999).'],
 };
-const ausentes = new Set(['V-007/PEP']); // missing answer: required source has no row
-const contaminados: Record<string, string> = { 'V-006/MID': 'V-001' }; // snapshot belongs to another case
-const quebrados = new Set(['V-008/PRO']); // gcs_uri points to an object that is never written
+const ausentes = new Set(['V-007/PEP']); // resposta ausente: fonte obrigatória sem registro
+const contaminados: Record<string, string> = { 'V-006/MID': 'V-001' }; // snapshot pertence a outro caso
+const quebrados = new Set(['V-008/PRO']); // gcs_uri aponta para um objeto que nunca é gravado
 
 const id = (caso: string) => `ID-SINTETICO-${caso.slice(2).padStart(4, '0')}`;
 const csv = (rows: (string | number | boolean)[][]) =>
@@ -82,7 +82,7 @@ oportunidades.forEach(([caso, razao], i) => {
     const arquivo = join(ROOT, 'gcs', 'evidencias', caso, `${ev}.json`);
     mkdirSync(dirname(arquivo), { recursive: true });
     writeFileSync(arquivo, conteudo);
-    // Integrity anchor recorded at load time (later loaded into BigQuery).
+    // Âncora de integridade gravada na geração (depois carregada no BigQuery).
     manifesto.push([ev, caso, uri, createHash('sha256').update(conteudo).digest('hex')]);
   });
 });

@@ -1,10 +1,10 @@
-// Official preliminary report: a fixed template over the rules' output. No LLM touches this text.
-// In cloud mode it is appended to vertice_demo.pareceres (audit trail, never updated).
+// Parecer preliminar oficial: modelo fixo sobre a saída das regras. Nenhum LLM toca neste texto.
+// No modo nuvem, é acrescentado em vertice_demo.pareceres (trilha de auditoria, nunca alterada).
 import { bigquery, modoLocal } from './dados.ts';
 import { VALIDADE_MESES } from './regras.ts';
 import type { ResultadoTriagem } from './tipos.ts';
 
-/** Policy: valid for up to 12 months or until a relevant corporate change. */
+/** Política: válido por até 12 meses ou até alteração societária relevante. */
 export function validoAte(r: ResultadoTriagem): string {
   const data = new Date(r.avaliado_em);
   data.setUTCMonth(data.getUTCMonth() + VALIDADE_MESES);
@@ -49,7 +49,7 @@ export function renderizarParecer(r: ResultadoTriagem, parecerId?: string): stri
   return linhas.join('\n');
 }
 
-/** Appends the report to BigQuery (cloud mode only). Parameterized INSERT: the agent can write this table and nothing else. */
+/** Acrescenta o parecer no BigQuery (só no modo nuvem). INSERT parametrizado: o agente escreve nesta tabela e em nenhuma outra. */
 export async function registrarParecer(r: ResultadoTriagem, texto: string, parecerId: string): Promise<boolean> {
   if (modoLocal()) return false;
   await bigquery().query({
@@ -63,7 +63,7 @@ export async function registrarParecer(r: ResultadoTriagem, texto: string, parec
       motivos: JSON.stringify(r.motivos), evidencias: JSON.stringify(r.evidencias), texto,
       regras_versao: r.regras_versao, gerado_em: r.avaliado_em, valido_ate: validoAte(r),
     },
-    types: { nivel_minimo: 'STRING' }, // null parameters need an explicit type
+    types: { nivel_minimo: 'STRING' }, // parâmetro nulo precisa de tipo explícito
     location: process.env.KYC_BQ_LOCATION ?? 'southamerica-east1',
   });
   return true;

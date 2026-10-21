@@ -1,7 +1,7 @@
--- The only read path of the agent. Lives in vertice_api and is authorized on vertice_demo,
--- so the agent's service account can call it without any access to the raw tables.
--- One case per call, filtered by a parameter (no string concatenation, no free SQL).
--- LEFT JOINs keep the opportunity even with no findings: the rules treat that as PENDENTE.
+-- Único caminho de leitura do agente. Fica em vertice_api e é autorizada em vertice_demo,
+-- então a conta de serviço do agente a chama sem ter acesso às tabelas brutas.
+-- Um caso por chamada, filtrado por parâmetro (sem concatenar texto, sem SQL livre).
+-- Os LEFT JOINs mantêm a oportunidade mesmo sem achados: as regras tratam isso como PENDENTE.
 CREATE OR REPLACE TABLE FUNCTION `SEU_PROJETO.vertice_api.fn_caso`(p_caso_id STRING) AS (
   SELECT
     o.caso_id, o.cnpj, o.razao_social, o.setor, o.situacao, o.beneficiario_final_identificado,

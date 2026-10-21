@@ -1,6 +1,6 @@
-// Loads one case: the opportunity, its findings and the sha256 manifest of its evidence.
-// Cloud: one parameterized call to the authorized table function vertice_api.fn_caso.
-// Local (KYC_LOCAL=1): the same data from data/*.csv.
+// Carrega um caso: a oportunidade, os achados e o manifesto sha256 das evidências.
+// Nuvem: uma chamada parametrizada à table function autorizada vertice_api.fn_caso.
+// Local (KYC_LOCAL=1): os mesmos dados a partir de data/*.csv.
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { BigQuery } from '@google-cloud/bigquery';
@@ -11,7 +11,7 @@ const DIR_DADOS = process.env.KYC_DATA_DIR ?? 'data';
 const CASO_ID = /^V-\d{3}$/;
 export const modoLocal = () => process.env.KYC_LOCAL === '1';
 
-/** Same ISO format in both modes; unreadable values pass through so the rules can reject them. */
+/** Mesmo formato ISO nos dois modos; valores ilegíveis passam adiante para as regras recusarem. */
 const iso = (valor: unknown) => {
   const data = new Date(String(valor ?? ''));
   return Number.isNaN(data.getTime()) ? String(valor ?? '') : data.toISOString();
@@ -20,16 +20,16 @@ const iso = (valor: unknown) => {
 export interface Caso {
   oportunidade: Oportunidade;
   achados: Achado[];
-  /** gcs_uri → sha256 recorded when the evidence was loaded. */
+  /** gcs_uri → sha256 gravado quando a evidência foi carregada. */
   manifesto: Map<string, string>;
 }
 
-/** Rejects anything that is not a case id before it reaches a query or a path. */
+/** Recusa qualquer coisa que não seja um caso_id antes de chegar a uma consulta ou a um caminho. */
 export function validarCasoId(casoId: string): void {
   if (!CASO_ID.test(casoId)) throw new Error(`caso_id inválido: ${JSON.stringify(casoId)}`);
 }
 
-/** Last line of defense against cross-case contamination, whatever the data source. */
+/** Última barreira contra contaminação entre casos, qualquer que seja a origem dos dados. */
 export function garantirMesmoCaso(casoId: string, achados: Achado[]): void {
   const intruso = achados.find(a => a.caso_id !== casoId);
   if (intruso) throw new Error(`Achado ${intruso.achado_id} do caso ${intruso.caso_id} retornado para ${casoId}; triagem interrompida.`);
@@ -40,7 +40,7 @@ export async function carregarCaso(casoId: string): Promise<Caso> {
   const caso = modoLocal() ? await carregarLocal(casoId) : await carregarBigQuery(casoId);
   if (caso.oportunidade.caso_id !== casoId) throw new Error(`Oportunidade ${caso.oportunidade.caso_id} retornada para ${casoId}.`);
   garantirMesmoCaso(casoId, caso.achados);
-  // Same order in both modes (and as the challenge's starter SQL), so outputs are reproducible.
+  // Mesma ordem nos dois modos (e no SQL inicial do desafio), para a saída ser reproduzível.
   caso.achados.sort((a, b) => a.tipo_fonte.localeCompare(b.tipo_fonte) || a.achado_id.localeCompare(b.achado_id));
   return caso;
 }
@@ -63,22 +63,22 @@ async function carregarBigQuery(casoId: string): Promise<Caso> {
     caso_id: o.caso_id, cnpj: o.cnpj, razao_social: o.razao_social, setor: o.setor, situacao: o.situacao,
     beneficiario_final_identificado: o.beneficiario_final_identificado === true,
     servicos: o.servicos, linha_de_servico: o.linha_de_servico,
-    valor_estimado: Number(o.valor_estimado), // NUMERIC comes back as a Big object
+    valor_estimado: Number(o.valor_estimado), // NUMERIC volta como objeto Big
     gerente: o.gerente, socio: o.socio,
   };
-  // LEFT JOIN: an opportunity without findings comes back as one row with null achado_id.
+  // LEFT JOIN: oportunidade sem achados volta como uma linha com achado_id nulo.
   const comAchado = linhas.filter(l => l.achado_id !== null);
   const achados: Achado[] = comAchado.map(l => ({
     caso_id: l.caso_id, achado_id: l.achado_id, tipo_fonte: l.tipo_fonte, status_consulta: l.status_consulta,
     nivel_achado: l.nivel_achado || null,
-    consultado_em: iso(l.consultado_em?.value), // TIMESTAMP comes back as BigQueryTimestamp
+    consultado_em: iso(l.consultado_em?.value), // TIMESTAMP volta como BigQueryTimestamp
     trecho: l.trecho, evidencia_id: l.evidencia_id, gcs_uri: l.gcs_uri,
   }));
   const manifesto = new Map(comAchado.filter(l => l.sha256).map(l => [l.gcs_uri as string, l.sha256 as string]));
   return { oportunidade, achados, manifesto };
 }
 
-// --- local mirror ---
+// --- espelho local ---
 
 const lerCsv = async (arquivo: string): Promise<Record<string, string>[]> =>
   parse(await readFile(join(DIR_DADOS, arquivo)), { columns: true, skip_empty_lines: true });

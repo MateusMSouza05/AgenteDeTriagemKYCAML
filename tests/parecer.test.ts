@@ -1,4 +1,4 @@
-// The official report must carry the result, every cited evidence and the human-decision notice.
+// O parecer oficial precisa trazer o resultado, todas as evidências citadas e o aviso de decisão humana.
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { registrarParecer, renderizarParecer, validoAte } from '../src/parecer.ts';

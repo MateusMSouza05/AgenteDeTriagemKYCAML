@@ -1,7 +1,7 @@
-// ADK agent: natural-language interface over the deterministic triage.
-// The model never classifies: it calls the single tool and presents the official report.
+// Agente ADK: interface em linguagem natural sobre a triagem determinística.
+// O modelo nunca classifica: chama a única ferramenta e apresenta o parecer oficial.
 //   npm run agente       (adk web, http://localhost:8000)
-//   npm run agente:cli   (adk run, terminal)
+//   npm run agente:cli   (adk run, no terminal)
 import { FunctionTool, LlmAgent } from '@google/adk';
 import { z } from 'zod';
 import { emitirParecer } from './triar.ts';

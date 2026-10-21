@@ -1,4 +1,4 @@
-// Deterministic policy (Annex A of the challenge). Pure function: no I/O, no LLM, no clock.
+// Política determinística (Anexo A do desafio). Função pura: sem I/O, sem LLM, sem relógio.
 // "Prevalece o maior nível sustentado por achado confirmado."
 import { FONTES_OBRIGATORIAS } from './tipos.ts';
 import type { AchadoConferido, Motivo, Oportunidade, ProblemaEvidencia, Resultado, ResultadoTriagem } from './tipos.ts';
@@ -21,10 +21,10 @@ function vencida(consultadoEm: string, agora: Date): boolean {
   const limite = new Date(agora);
   limite.setUTCMonth(limite.getUTCMonth() - VALIDADE_MESES);
   const instante = new Date(consultadoEm);
-  return Number.isNaN(instante.getTime()) || instante < limite; // unreadable date = not valid
+  return Number.isNaN(instante.getTime()) || instante < limite; // data ilegível = inválida
 }
 
-/** A name match is a fact only when the snapshot carries the same identifier as the opportunity. */
+/** Correspondência por nome só vira fato quando o snapshot traz o mesmo identificador da oportunidade. */
 const identificadorConfirmado = (achado: AchadoConferido, cnpj: string) =>
   achado.snapshot?.correspondencias.some(c => c.identificador === cnpj) ?? false;
 
@@ -33,14 +33,14 @@ export function classificar(op: Oportunidade, achados: AchadoConferido[], agora:
   const pendencias: Motivo[] = [];
   let nivel = 0; // 0 LEVE · 1 MODERADO · 2 ALTO
 
-  // 1. Completeness: every required source must have a row.
+  // 1. Completude: toda fonte obrigatória precisa ter registro.
   for (const fonte of FONTES_OBRIGATORIAS) {
     if (!achados.some(a => a.tipo_fonte === fonte)) {
       pendencias.push({ codigo: 'FONTE_AUSENTE', descricao: `Nenhum registro da fonte obrigatória ${fonte}.` });
     }
   }
 
-  // 2. Each finding: evidence integrity → query concluded → still valid → level → identifier confirmed.
+  // 2. Cada achado: evidência íntegra → consulta concluída → ainda válida → nível → identificador confirmado.
   for (const a of achados) {
     const ref = { evidencia_id: a.evidencia_id, gcs_uri: a.gcs_uri };
     if (a.problema) {
@@ -74,7 +74,7 @@ export function classificar(op: Oportunidade, achados: AchadoConferido[], agora:
     }
   }
 
-  // 3. Registry facts from the opportunity record.
+  // 3. Fatos cadastrais do registro da oportunidade.
   const cadastro = { evidencia_id: `oportunidades:${op.caso_id}` };
   if (!op.beneficiario_final_identificado) {
     fatos.push({ codigo: 'BENEFICIARIO_NAO_IDENTIFICADO', descricao: 'Beneficiário final não identificado no cadastro.', ...cadastro });
@@ -88,7 +88,7 @@ export function classificar(op: Oportunidade, achados: AchadoConferido[], agora:
     pendencias.push({ codigo: 'CADASTRO_INATIVO', descricao: `Situação cadastral ${op.situacao}; Leve exige cadastro ativo.`, ...cadastro });
   }
 
-  // 4. Final result: confirmed ALTO wins; any open item blocks a conclusion; never LEVE with open items.
+  // 4. Resultado final: ALTO confirmado prevalece; qualquer pendência impede concluir; nunca LEVE com pendência.
   const resultado: Resultado = nivel === 2 ? 'ALTO' : pendencias.length ? 'PENDENTE' : nivel === 1 ? 'MODERADO' : 'LEVE';
 
   return {
@@ -124,7 +124,7 @@ function encaminhar(resultado: Resultado, op: Oportunidade, pendencias: Motivo[]
     case 'ALTO':
       return 'Comitê de Aceitação: início bloqueado até decisão humana registrada.';
     case 'PENDENTE': {
-      // Exceptions that need judgment go to a person; missing/failed queries go back to research first.
+      // Exceções que exigem julgamento vão para uma pessoa; consulta faltando ou com falha volta antes para a pesquisa.
       const revisao = pendencias.some(p => p.codigo === 'HOMONIMO' || p.codigo.startsWith('EVIDENCIA_') || p.codigo === 'CADASTRO_INATIVO');
       return revisao
         ? `Revisão humana (analista responsável, gerente ${op.gerente}): exceção registrada; sem classificação até análise.`

@@ -1,4 +1,4 @@
-// Expected inputs/outputs of the triage (local mode, synthetic data, no GCP).
+// Entradas e saídas esperadas da triagem (modo local, dados sintéticos, sem GCP).
 //   npm test
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
@@ -9,7 +9,7 @@ import { classificar } from '../src/regras.ts';
 import { triarCaso } from '../src/triar.ts';
 import type { AchadoConferido } from '../src/tipos.ts';
 
-process.env.KYC_LOCAL = '1'; // tests run offline against data/: no GCP, no cost
+process.env.KYC_LOCAL = '1'; // testes rodam offline sobre data/: sem GCP, sem custo
 const AGORA = new Date('2026-10-20T12:00:00Z');
 const codigos = (motivos: { codigo: string }[]) => motivos.map(m => m.codigo).sort();
 

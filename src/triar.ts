@@ -1,5 +1,5 @@
-// Full triage of one case: load → check evidence → apply rules → official report.
-// Also the CLI for the demo (writes pareceres/<caso>.md; in cloud mode also appends to BigQuery):
+// Triagem completa de um caso: carregar → conferir evidências → aplicar regras → parecer oficial.
+// Também é a linha de comando da demo (grava pareceres/<caso>.md; no modo nuvem também grava no BigQuery):
 //   npm run triar V-001 V-003
 //   npm run triar -- --json V-003
 import { randomUUID } from 'node:crypto';
@@ -15,7 +15,7 @@ export async function triarCaso(casoId: string, agora = new Date()): Promise<Res
   return classificar(oportunidade, await conferirAchados(casoId, achados, manifesto), agora);
 }
 
-/** Triage + deterministic report + audit record. Used by the CLI and by the agent's only tool. */
+/** Triagem + parecer determinístico + registro de auditoria. Usado pela linha de comando e pela única ferramenta do agente. */
 export async function emitirParecer(casoId: string, agora = new Date()) {
   const resultado = await triarCaso(casoId, agora);
   const parecerId = randomUUID();
