@@ -44,12 +44,12 @@ Automatizar a coleta, a conferência e a classificação preliminar de risco KYC
                                         existe? caso_id bate? sha256 bate? evidência mínima?
    4. regras.classificar ───────────▶ LEVE | MODERADO | ALTO | PENDENTE + motivos
    5. parecer.renderizar ───────────▶ parecer oficial (modelo fixo, cita evidencia_id + gcs_uri)
-   6. grava em vertice_dados.pareceres (só acrescenta linhas)
+   6. grava em vertice_demo.pareceres (só acrescenta linhas)
                                      ▼
    Agente apresenta o parecer e o encaminhamento:
    LEVE → gerente · MODERADO → sócio · ALTO → Comitê + bloqueio · PENDENTE → responsável + motivo
                                      ▼
-   Decisão humana registrada em vertice_dados.decisoes_humanas (o agente NÃO escreve aqui)
+   Decisão humana registrada em vertice_demo.decisoes_humanas (o agente NÃO escreve aqui)
 ```
 
 ### Por que assim
@@ -71,18 +71,18 @@ Automatizar a coleta, a conferência e a classificação preliminar de risco KYC
 
 ## 4. Modelo de dados (BigQuery)
 
-Dois datasets. No BigQuery a permissão costuma ser por dataset: quem lê um dataset lê todas as tabelas dele. A rotina autorizada precisa ficar **fora** do dataset das tabelas brutas; senão, a permissão para chamá-la também libera `SELECT *` nas tabelas.
+Dois datasets: `vertice_demo` (mesmo nome do SQL inicial do PDF, para o avaliador reconhecer) e `vertice_api`. No BigQuery a permissão costuma ser por dataset: quem lê um dataset lê todas as tabelas dele. A rotina autorizada precisa ficar **fora** do dataset das tabelas brutas; senão, a permissão para chamá-la também libera `SELECT *` nas tabelas.
 
 | Dataset | Tabelas / rotinas | Quem acessa |
 |---|---|---|
-| `vertice_dados` | `oportunidades`, `achados`, `evidencias` (manifesto), `pareceres`, `decisoes_humanas` | administradores; a rotina autorizada lê; **permissão por tabela**: agente escreve só `pareceres`, humanos escrevem só `decisoes_humanas` |
+| `vertice_demo` | `oportunidades`, `achados`, `evidencias` (manifesto), `pareceres`, `decisoes_humanas` | administradores; a rotina autorizada lê; **permissão por tabela**: agente escreve só `pareceres`, humanos escrevem só `decisoes_humanas` |
 | `vertice_api` | `fn_caso(caso_id)` — table function | agente (leitura) |
 
 ### Tabelas
 
 - **`oportunidades`**: contrato original do PDF. PK `caso_id`.
 - **`achados`**: contrato original do PDF, com as 9 colunas. PK `(caso_id, achado_id)`, porque `achado_id` se repete entre casos (`A-SAN`). Clusterizada por `caso_id`, já que toda consulta filtra por caso.
-- **`evidencias`** (nova): `evidencia_id`, `caso_id`, `gcs_uri`, `sha256`, `generation`, `carregado_em`. É o manifesto de integridade, gravado no momento da carga.
+- **`evidencias`** (nova): `evidencia_id`, `caso_id`, `gcs_uri`, `sha256`. É o manifesto de integridade, gravado no momento da carga. O `generation` ficou de fora: o sha256 já detecta alteração e o versionamento do bucket guarda o histórico.
 - **`pareceres`** (nova): `parecer_id`, `caso_id`, `resultado`, `motivos` (JSON), `evidencias` (ARRAY), `texto`, `regras_versao`, `gerado_em`, `valido_ate`. Só recebe inserções, nunca atualizações; o histórico fica preservado.
 - **`decisoes_humanas`** (nova): `caso_id`, `parecer_id`, `decisao` (APROVADO/RECUSADO/LIBERADO_INICIO), `responsavel`, `justificativa`, `decidido_em`.
 
@@ -185,12 +185,12 @@ Cada motivo carrega `codigo`, `descricao` e `evidencia_id`, o que dá evidência
 | Você (administrador) | Owner do projeto; roda `setup.sh` | projeto |
 | `kyc-agente@<proj>.iam.gserviceaccount.com` | `roles/bigquery.jobUser` | projeto |
 | | `roles/bigquery.dataViewer` | **só** dataset `vertice_api` (rotina autorizada) |
-| | `roles/bigquery.dataEditor` | **só** tabela `vertice_dados.pareceres` (permissão por tabela) |
+| | `roles/bigquery.dataEditor` | **só** tabela `vertice_demo.pareceres` (permissão por tabela) |
 | | `roles/storage.objectViewer` com condição IAM `objects/evidencias/` | bucket |
 | | `roles/aiplatform.user` | projeto (Gemini) |
 | Revisor humano | `dataEditor` em `decisoes_humanas` | tabela |
 
-**Rotina autorizada:** o agente não tem acesso a `vertice_dados`. A table function `fn_caso` é autorizada a ler esse dataset em nome do agente. Na prática, o agente só enxerga dados através dela, um caso por vez. Essa é a resposta direta a *"Não permita SQL livre"*.
+**Rotina autorizada:** o agente não tem acesso a `vertice_demo`. A table function `fn_caso` é autorizada a ler esse dataset em nome do agente. Na prática, o agente só enxerga dados através dela, um caso por vez. Essa é a resposta direta a *"Não permita SQL livre"*.
 
 **Evolução para produção:** separar a saída (`pareceres`, `decisoes_humanas`) num terceiro dataset, com retenção e auditoria próprias. No MVP, a permissão por tabela já garante o mesmo privilégio mínimo com menos peças.
 

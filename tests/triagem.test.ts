@@ -84,7 +84,7 @@ describe('bordas', () => {
 
   it('gcs_uri fora do prefixo do caso não é lido → EVIDENCIA_FORA_DO_CASO', async () => {
     const { achados } = await carregarCaso('V-001');
-    for (const uri of ['gs://vertice-kyc-demo/evidencias/V-003/EV-V003-SAN.json', 'gs://vertice-kyc-demo/evidencias/V-001/../V-003/EV-V003-SAN.json']) {
+    for (const uri of ['gs://vertice-kyc-projeto-vertice-auditores/evidencias/V-003/EV-V003-SAN.json', 'gs://vertice-kyc-projeto-vertice-auditores/evidencias/V-001/../V-003/EV-V003-SAN.json']) {
       const [a] = await conferirAchados('V-001', [{ ...achados[0], gcs_uri: uri }]);
       assert.equal(a.problema, 'EVIDENCIA_FORA_DO_CASO');
     }

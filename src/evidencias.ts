@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { parse } from 'csv-parse/sync';
 import type { Achado, AchadoConferido, ProblemaEvidencia, Snapshot } from './tipos.ts';
 
-export const BUCKET = process.env.KYC_BUCKET ?? 'vertice-kyc-demo';
+export const BUCKET = process.env.KYC_BUCKET ?? 'vertice-kyc-projeto-vertice-auditores';
 const DIR_DADOS = process.env.KYC_DATA_DIR ?? 'data';
 
 /** The object must live under this case's prefix; '..' is rejected so the local mirror cannot escape it. */

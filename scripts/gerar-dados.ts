@@ -6,7 +6,7 @@ import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
 const ROOT = 'data';
-const BUCKET = process.env.KYC_BUCKET ?? 'vertice-kyc-demo';
+const BUCKET = process.env.KYC_BUCKET ?? 'vertice-kyc-projeto-vertice-auditores';
 const FONTES = { SAN: 'SANCOES', PEP: 'PEP', PRO: 'PROCESSOS', MID: 'MIDIA' } as const;
 type Sufixo = keyof typeof FONTES;
 const NOME_FONTE: Record<string, string> = {
