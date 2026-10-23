@@ -5,7 +5,6 @@ MVP do desafio **Desenvolvedor(a) Google Cloud Pleno**: um agente que faz a tria
 > Caso fictício. Todos os dados, empresas e identificadores (`ID-SINTETICO-*`, `@vertice.example`) são sintéticos. Nenhuma alegação se refere a pessoas ou empresas reais.
 
 - Desenho técnico: [docs/arquitetura.md](docs/arquitetura.md)
-- Plano de trabalho e decisões: [docs/PLANO.md](docs/PLANO.md)
 - Pareceres gerados: [pareceres/](pareceres/)
 
 ## Resultado
